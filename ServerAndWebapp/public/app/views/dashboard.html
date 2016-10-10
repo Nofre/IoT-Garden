@@ -1,0 +1,91 @@
+<div class="dashboard-page"></div>
+<div class="navbar navbar-default" role="navigation">
+  <div class="container">
+    <ul class="nav navbar-nav navbar-left" style="margin-top: 10px;">
+      <li>
+        <h4>IOTGarden</h4>
+      </li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li>
+        <a href="javascript:void(0);" ng-click="logout()"><i class="fa fa-sign-out" style="font-size: 25px;"></i></a>
+      </li>
+    </ul>
+  </div>
+</div>
+<div class="content">
+  <div class="container">
+    <!-- Charts info -->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card-box">
+          <h4 class="header-title">Controllers</h4>
+          <div class="row">
+            <div class="col-md-3 m-t-10 text-center">
+              <h5 style="color: #428bca;"><b>Fan</b></h5>
+              <div class="radio">
+                <label><input type="radio" name="fanopt" ng-model="opt.fan" ng-click="updateOpt()" value="0">OFF</label>
+                <label><input type="radio" name="fanopt" ng-model="opt.fan" ng-click="updateOpt()" value="1">ON</label>
+                <label><input type="radio" name="fanopt" ng-model="opt.fan" ng-click="updateOpt()" value="2">Auto</label>
+              </div>
+
+            </div>
+            <div class="col-md-3 m-t-10 text-center">
+              <h5 style="color: #f0ad4e;"><b>Light</b></h5>
+              <div class="radio">
+                <label><input type="radio" name="lightopt" ng-model="opt.light" ng-click="updateOpt()" value="0">OFF</label>
+                <label><input type="radio" name="lightopt" ng-model="opt.light" ng-click="updateOpt()" value="1">ON</label>
+                <label><input type="radio" name="lightopt" ng-model="opt.light" ng-click="updateOpt()" value="2">Auto</label>
+              </div>
+            </div>
+            <div class="col-md-3 m-t-10 text-center">
+              <h5 style="color: #5bc0de;"><b>Irrigate</b></h5>
+              <div class="radio">
+                <label><input type="radio" name="irrigateopt" ng-model="opt.irrigate" ng-click="updateOpt()" value="0">OFF</label>
+                <label><input type="radio" name="irrigateopt" ng-model="opt.irrigate" ng-click="updateOpt()" value="1">ON</label>
+                <label><input type="radio" name="irrigateopt" ng-model="opt.irrigate" ng-click="updateOpt()" value="2">Auto</label>
+              </div>
+            </div>
+            <div class="col-md-3 m-t-20 text-center">
+              <button type="button" class="btn btn-default" ng-click="refreshData()"><b>Refresh data</b></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="card-box">
+          <h4 class="header-title">Exterior humidity</h4>
+          <div class="row">
+            <div class="col-md-6 m-t-20" id="ext-humidity-chart1" style="height: 150px;"></div>
+            <div class="col-md-6 m-t-20" id="ext-humidity-chart2" style="height: 150px;"></div>
+          </div>
+          <h4 class="header-title">Interior humidity</h4>
+          <div class="row">
+            <div class="col-md-6 m-t-20" id="int-humidity-chart1" style="height: 150px;"></div>
+            <div class="col-md-6 m-t-20" id="int-humidity-chart2" style="height: 150px;"></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="card-box">
+          <h4 class="header-title">Exterior temperature</h4>
+          <div class="row">
+            <div class="col-md-6 m-t-20" id="ext-temperature-chart1" style="height: 150px;"></div>
+            <div class="col-md-6 m-t-20" id="ext-temperature-chart2" style="height: 150px;"></div>
+          </div>
+          <h4 class="header-title">Interior temperature</h4>
+          <div class="row">
+            <div class="col-md-6 m-t-20" id="int-temperature-chart1" style="height: 150px;"></div>
+            <div class="col-md-6 m-t-20" id="int-temperature-chart2" style="height: 150px;"></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="card-box">
+          <h4 class="header-title">Light percentage</h4>
+          <div class="m-t-20" id="light-chart" style="height: 150px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
