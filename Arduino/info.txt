@@ -1,0 +1,45 @@
+
+
+Scheme Arduino UNO
+--------------------------------------------------------------------------------
+           __________________
+           |           AREF |
+           | IOREF       13 |
+           | RESET       12 |
+           | 3.3V        11 |
+           | 5V          10 |
+           | GND          9 | RELAY 3
+           | GND          8 | RELAY 2
+           | Vin          7 | RELAY 1
+           |              6 |
+HUMIDITY 1 | A0           5 |
+HUMIDITY 2 | A1           4 | DHTXX 2
+LIGHT      | A2           3 | DHTXX 1
+           | A3           2 | TEMPERATURE (2 OneWire Sensors)
+           | A4           1 | NOT USED
+           | A5           0 | NOT USED
+           """"""""""""""""""
+
+
+
+
+Serial Commands
+--------------------------------------------------------------------------------
+
+Send chars to control relays:
+
+'a' : Close relay 1
+'b' : Open  relay 1
+'c' : Close relay 2
+'d' : Open  relay 2
+'e' : Close relay 3
+'f' : Open  relay 3
+
+
+
+Arduino sends values in a formated string every second by serial.
+Every value is a float.
+
+string = "(DHTXX 1 Humidity)|(DHTXX 1 Humidity)|(Humidity 1)|(Humidity 2)|(DHTXX Temperature 1)|(DHTXX Temperature 2)|(Temperature 1)|(Temperature 2)|(Light)\n"
+
+Example: "46.12|48.32|72.20|86.54|26.21|27.78|32.10|35.21|70.46\n"
