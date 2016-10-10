@@ -35,7 +35,7 @@ void loop() {
   float llum = (1023 - analog2)/1024.0*100;
 
   float ext1_h, ext1_t, ext2_h, ext2_t;
-  
+
   if (dht1.read(ext1_h, ext1_t) == 0) {
     ext1_h_old = ext1_h;
     ext1_t_old = ext1_t;
@@ -47,7 +47,7 @@ void loop() {
   }
 
 
-  
+
   Serial.print(ext1_h_old); //id 0
   Serial.print("|");
   Serial.print(ext2_h_old); //id 1
@@ -74,15 +74,15 @@ void loop() {
       case 'a':
         digitalWrite(7, LOW);
         break;
-        
+
       case 'b':
         digitalWrite(7, HIGH);
         break;
-        
+
       case 'c':
         digitalWrite(8, LOW);
         break;
-        
+
       case 'd':
         digitalWrite(8, HIGH);
         break;
@@ -90,7 +90,7 @@ void loop() {
       case 'e':
         digitalWrite(9, LOW);
         break;
-        
+
       case 'f':
         digitalWrite(9, HIGH);
         break;
@@ -98,6 +98,6 @@ void loop() {
 
   }
 
-  delay(1000);
+  delay(5000);
 
 }

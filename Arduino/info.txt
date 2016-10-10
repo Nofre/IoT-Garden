@@ -8,9 +8,9 @@ Scheme Arduino UNO
            | RESET       12 |
            | 3.3V        11 |
            | 5V          10 |
-           | GND          9 | RELAY 3
-           | GND          8 | RELAY 2
-           | Vin          7 | RELAY 1
+           | GND          9 | RELAY_WATER
+           | GND          8 | RELAY_WIND
+           | Vin          7 | RELAY_LIGHT
            |              6 |
 HUMIDITY 1 | A0           5 |
 HUMIDITY 2 | A1           4 | DHTXX 2
@@ -28,12 +28,12 @@ Serial Commands
 
 Send chars to control relays:
 
-'a' : Close relay 1
-'b' : Open  relay 1
-'c' : Close relay 2
-'d' : Open  relay 2
-'e' : Close relay 3
-'f' : Open  relay 3
+'a' : Close RELAY_LIGHT
+'b' : Open  RELAY_LIGHT
+'c' : Close RELAY_WIND
+'d' : Open  RELAY_WIND
+'e' : Close RELAY_WATER
+'f' : Open  RELAY_WATER
 
 
 
