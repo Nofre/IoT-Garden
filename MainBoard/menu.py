@@ -80,17 +80,17 @@ class menu:
 			self.sel_item = 1
 
 		elif n == 5:
-			self.draw("Ventilation: %s" % status_ventilacio, "ON", "OFF", "AUTO")
+			self.draw("Ventilation: %s" % gvars.status["wind"], "ON", "OFF", "AUTO")
 			self.draw_cursor(1)
 			self.sel_item = 1
 
 		elif n == 6:
-			self.draw("Water: %s" % status_aigua, "ON", "OFF", "AUTO")
+			self.draw("Water: %s" % gvars.status["water"], "ON", "OFF", "AUTO")
 			self.draw_cursor(1)
 			self.sel_item = 1
 
 		elif n == 7:
-			self.draw("Light: %s" % status_llum, "ON", "OFF", "AUTO")
+			self.draw("Light: %s" % gvars.status["light"], "ON", "OFF", "AUTO")
 			self.draw_cursor(1)
 			self.sel_item = 1
 
@@ -212,8 +212,8 @@ class menu:
 					elif self.sel_item == 3:
 						gvars.status["wind"] = "AUTO"
 
-					self.draw("VENTILATION", "","CHANGED TO % " % gvars.status["wind"], "")
-					time.sleep(1)
+					self.draw("    VENTILATION", "","  CHANGED TO %s" % gvars.status["wind"], "")
+					time.sleep(2)
 					self.changeScreen(1)
 
 			#Water
@@ -240,8 +240,8 @@ class menu:
 					elif self.sel_item == 3:
 						gvars.status["water"] = "AUTO"
 
-					self.draw("WATER", "","CHANGED TO % " % gvars.status["water"], "")
-					time.sleep(1)
+					self.draw("    WATER", "","  CHANGED TO %s" % gvars.status["water"], "")
+					time.sleep(2)
 					self.changeScreen(1)
 
 
@@ -269,8 +269,8 @@ class menu:
 					elif self.sel_item == 3:
 						gvars.status["light"] = "AUTO"
 
-					self.draw("WATER", "","CHANGED TO % " % gvars.status["water"], "")
-					time.sleep(1)
+					self.draw("    LIGHT", "","  CHANGED TO %s" % gvars.status["water"], "")
+					time.sleep(2)
 					self.changeScreen(1)
 
 

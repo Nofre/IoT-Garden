@@ -13,7 +13,7 @@ baudRate = 57600
 pins = {
 	"buttonUP"		: "P8_39",
 	"buttonDOWN"	: "P8_41",
-	"buttonENTETR"	: "P8_42",
+	"buttonENTER"	: "P8_42",
 	"hd44780_RS"	: "P9_23",
 	"hd44780_E"		: "P9_24",
 	"hd44780_D4"	: "P9_15",
