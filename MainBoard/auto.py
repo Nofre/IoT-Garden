@@ -1,4 +1,5 @@
 import gvars
+import time
 
 def auto(sc):
 

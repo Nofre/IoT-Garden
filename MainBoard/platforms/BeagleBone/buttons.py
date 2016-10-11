@@ -8,11 +8,11 @@ class buttons:
 		GPIO.setup(cfg.pins["buttonDOWN"],   GPIO.IN)
 		GPIO.setup(cfg.pins["buttonsENTER"], GPIO.IN)
 
-	def up():
+	def up(self):
 		return not GPIO.input(cfg.pins["buttonUP"])
 
-	def down():
+	def down(self):
 		return not GPIO.input(cfg.pins["buttonDOWN"])
 
-	def enter():
+	def enter(self):
 		return not GPIO.input(cfg.pins["buttonENTER"])

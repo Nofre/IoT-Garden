@@ -1,8 +1,10 @@
 #Platfrom (Beagle or RPi)
 platform = "Beagle"
 
-#Arduino sensors' controller (Default: Arduino plugged at USB)
-useArduinoSensorsController = True
+#Arduino sensors' controller (Arduino, BuiltIn or stub)
+sensorsController = "Arduino"
+
+#only if sensorsController is Arduino
 serialPort = "/dev/ttyACM0"
 baudRate = 57600
 

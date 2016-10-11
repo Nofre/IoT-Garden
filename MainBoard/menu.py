@@ -1,4 +1,5 @@
 import gvars
+import time
 
 class menu:
 
@@ -12,262 +13,265 @@ class menu:
 	screen3_count = 0
 	sel_item = 0
 
-	def __init__(self, sensorsController, hd44780, buttons):
-		hd = hd44780
-		buts = buttons
-		sc = sensorsController
+	def __init__(self, sc, hd, buts):
+		self.hd = hd
+		self.buts = buts
+		self.sc = sc
 
-	def draw(l1, l2, l3, l4):
-		hd.clear()
-		hd.send_string(l1, 1)
-		hd.send_string(l2, 2)
-		hd.send_string(l3, 3)
-		hd.send_string(l4, 4)
-
-
-	def draw_cursor(n):
-		hd.set_cursor(18,  1)
-		hd.send_data(' ')
-		hd.set_cursor(18,  2)
-		hd.send_data(' ')
-		hd.set_cursor(18,  3)
-		hd.send_data(' ')
-		hd.set_cursor(18,  4)
-		hd.send_data(' ')
-
-		hd.set_cursor(18,  (n+1))
-		hd.send_data('*')
+	def draw(self, l1, l2, l3, l4):
+		self.hd.clear()
+		self.hd.send_string(l1, 1)
+		self.hd.send_string(l2, 2)
+		self.hd.send_string(l3, 3)
+		self.hd.send_string(l4, 4)
 
 
-	def draw_sensor(n):
+	def draw_cursor(self, n):
+		self.hd.set_cursor(18,  1)
+		self.hd.send_data(' ')
+		self.hd.set_cursor(18,  2)
+		self.hd.send_data(' ')
+		self.hd.set_cursor(18,  3)
+		self.hd.send_data(' ')
+		self.hd.set_cursor(18,  4)
+		self.hd.send_data(' ')
+
+		self.hd.set_cursor(18,  (n+1))
+		self.hd.send_data('*')
+
+
+	def draw_sensor(self, n):
 		if n == 0:
-			draw("Outside 1", "", "Temp: %s *C" % gvars.values["exttemp1"], "Humidity: %s%%" % gvars.values["exthumidity1"])
+			self.draw("Outside 1", "", "Temp: %s *C" % gvars.values["exttemp1"], "Humidity: %s%%" % gvars.values["exthumidity1"])
 		elif n == 1:
-			draw("Outside 2", "", "Temp: %s *C" % gvars.values["exttemp2"], "Humidity: %s%%" % gvars.values["exthumidity2"])
+			self.draw("Outside 2", "", "Temp: %s *C" % gvars.values["exttemp2"], "Humidity: %s%%" % gvars.values["exthumidity2"])
 		elif n == 2:
-			draw("Inside Humidity", "", "Sensor 1: %s%%" % gvars.values["humidity1"], "Sensor 2: %s%%" % gvars.values["humidity2"])
+			self.draw("Inside Humidity", "", "Sensor 1: %s%%" % gvars.values["humidity1"], "Sensor 2: %s%%" % gvars.values["humidity2"])
 		elif n == 3:
-			draw("Inside Temperature", "", "Sensor 1: %s *C" % gvars.values["temp1"], "Sensor 2: %s *C" % gvars.values["temp2"])
+			self.draw("Inside Temperature", "", "Sensor 1: %s *C" % gvars.values["temp1"], "Sensor 2: %s *C" % gvars.values["temp2"])
 
 
-	def selectScreen(n):
+	def changeScreen(self, n):
 
-		screen = n
+		self.screen = n
 
 		if n == 0:
-			screen0_index = 0
-			screen0_count = 0
-			draw_sensor(0)
+			self.screen0_index = 0
+			self.screen0_count = 0
+			self.draw_sensor(0)
 
 		elif n == 1:
-			draw("All Sensors", "Select Sensor", "Setup", "")
-			draw_cursor(0)
-			sel_item = 0
+			self.draw("All Sensors", "Select Sensor", "Setup", "")
+			self.draw_cursor(0)
+			self.sel_item = 0
 
 		elif n == 2:
-			draw("Outside 1", "Outside 2", "Inside Humidity", "Inside Temperature")
-			draw_cursor(0)
-			sel_item = 0
+			self.draw("Outside 1", "Outside 2", "Inside Humidity", "Inside Temperature")
+			self.draw_cursor(0)
+			self.sel_item = 0
 
 		elif n == 3:
-			screen3_count = 0
-			draw_sensor(sel_item)
+			self.screen3_count = 0
+			self.draw_sensor(sel_item)
 
 		elif n == 4:
-			draw("  -----Setup------  ", "Ventilation", "Water", "Light")
-			draw_cursor(1)
-			sel_item = 1
+			self.draw("  -----Setup------  ", "Ventilation", "Water", "Light")
+			self.draw_cursor(1)
+			self.sel_item = 1
 
 		elif n == 5:
-			draw("Ventilation: %s" % status_ventilacio, "ON", "OFF", "AUTO")
-			draw_cursor(1)
-			sel_item = 1
+			self.draw("Ventilation: %s" % status_ventilacio, "ON", "OFF", "AUTO")
+			self.draw_cursor(1)
+			self.sel_item = 1
 
 		elif n == 6:
-			draw("Water: %s" % status_aigua, "ON", "OFF", "AUTO")
-			draw_cursor(1)
-			sel_item = 1
+			self.draw("Water: %s" % status_aigua, "ON", "OFF", "AUTO")
+			self.draw_cursor(1)
+			self.sel_item = 1
 
 		elif n == 7:
-			draw("Light: %s" % status_llum, "ON", "OFF", "AUTO")
-			draw_cursor(1)
-			sel_item = 1
+			self.draw("Light: %s" % status_llum, "ON", "OFF", "AUTO")
+			self.draw_cursor(1)
+			self.sel_item = 1
 
 
-	def inputLoop():
-		#Scroll sensors
-		if screen == 0:
+	def inputLoop(self, none):
 
-			if buts.up() or buts.down() or buts.enter():
-				changeScreen(1)
+		while True:
 
-			else:
-				screen0_count += 1
+			#Scroll sensors
+			if self.screen == 0:
 
-				if screen0_count == 10:
-					draw_sensor(screen0_index)
-					screen0_index += 1
-					screen0_count = 0
-					if screen0_index == 4:
-						screen0_index = 0
+				if self.buts.up() or self.buts.down() or self.buts.enter():
+					self.changeScreen(1)
 
+				else:
+					self.screen0_count += 1
 
-		#Main Menu
-		elif screen == 1:
-			if buts.up():
-				if sel_item > 0:
-					sel_item -= 1
-					draw_cursor(sel_item)
-
-			if buts.down():
-				if sel_item < 2:
-					sel_item +=1
-					draw_cursor(sel_item)
-
-			if buts.enter():
-				if sel_item == 0:
-					changeScreen(0)
-
-				elif sel_item == 1:
-					changeScreen(2)
-
-				elif sel_item == 2:
-					changeScreen(4)
+					if self.screen0_count == 10:
+						self.draw_sensor(self.screen0_index)
+						self.screen0_index += 1
+						self.screen0_count = 0
+						if self.screen0_index == 4:
+							self.screen0_index = 0
 
 
-		#Seleccio de sensors
-		elif screen == 2:
-			if buts.up():
-				if sel_item > 0:
-					sel_item -= 1
-					draw_cursor(sel_item)
+			#Main Menu
+			elif self.screen == 1:
+				if self.buts.up():
+					if self.sel_item > 0:
+						self.sel_item -= 1
+						self.draw_cursor(self.sel_item)
 
-			if buts.down():
-				if sel_item < 3:
-					sel_item +=1
-					draw_cursor(sel_item)
+				elif self.buts.down():
+					if self.sel_item < 2:
+						self.sel_item +=1
+						self.draw_cursor(self.sel_item)
 
-			if buts.enter():
-				changeScreen(3)
+				elif self.buts.enter():
+					if self.sel_item == 0:
+						self.changeScreen(0)
 
+					elif self.sel_item == 1:
+						self.changeScreen(2)
 
-		#Sensor
-		elif screen == 3:
-			if buts.up() or buts.down() or buts.enter():
-				changeScreen(1)
-			else:
-				screen3_count += 1
-
-				if screen3_count == 5:
-					draw_sensor(sel_item)
-					screen3_count = 0
-
-		#Setup
-		elif screen == 4:
-			if buts.up():
-				if sel_item > 1:
-					sel_item -= 1
-					draw_cursor(sel_item)
-
-			if buts.down():
-				if sel_item < 3:
-					sel_item +=1
-					draw_cursor(sel_item)
-
-			if buts.enter():
-				if sel_item == 1:
-					changeScreen(5)
-
-				elif sel_item == 2:
-					changeScreen(6)
-
-				elif sel_item == 3:
-					changeScreen(7)
-
-		#Wind
-		elif screen == 5:
-			if buts.up():
-				if sel_item > 1:
-					sel_item -= 1
-					draw_cursor(sel_item)
-
-			if buts.down():
-				if sel_item < 3:
-					sel_item +=1
-					draw_cursor(sel_item)
-
-			if buts.enter():
-				if sel_item == 1:
-					gvars.status["wind"] = "ON"
-					sc.windOn()
-
-				if sel_item == 2:
-					gvars.status["wind"] = "OFF"
-					sc.windOff()
-
-				if sel_item == 3:
-					gvars.status["wind"] = "AUTO"
-
-				draw("VENTILATION", "","CHANGED TO % " % gvars.status["wind"], "")
-				time.sleep(1)
-				changeScreen(1)
-
-		#Water
-		elif screen == 6:
-			if buts.up():
-				if sel_item > 1:
-					sel_item -= 1
-					draw_cursor(sel_item)
-
-			if buts.down():
-				if sel_item < 3:
-					sel_item +=1
-					draw_cursor(sel_item)
-
-			if buts.enter():
-				if sel_item == 1:
-					gvars.status["water"] = "ON"
-					sc.waterOn()
-
-				if sel_item == 2:
-					gvars.status["water"] = "OFF"
-					sc.waterOn()
-
-				if sel_item == 3:
-					gvars.status["water"] = "AUTO"
-
-				draw("WATER", "","CHANGED TO % " % gvars.status["water"], "")
-				time.sleep(1)
-				changeScreen(1)
+					elif self.sel_item == 2:
+						self.changeScreen(4)
 
 
-		#Light
-		elif screen == 7:
-			if buts.up():
-				if sel_item > 1:
-					sel_item -= 1
-					draw_cursor(sel_item)
+			#Seleccio de sensors
+			elif self.screen == 2:
+				if self.buts.up():
+					if self.sel_item > 0:
+						self.sel_item -= 1
+						self.draw_cursor(self.sel_item)
 
-			if buts.down():
-				if sel_item < 3:
-					sel_item +=1
-					draw_cursor(sel_item)
+				elif self.buts.down():
+					if self.sel_item < 3:
+						self.sel_item +=1
+						self.draw_cursor(self.sel_item)
 
-			if buts.enter():
-				if sel_item == 1:
-					gvars.status["light"] = "ON"
-					sc.lightOn()
-
-				if sel_item == 2:
-					gvars.status["light"] = "OFF"
-					sc.lightOff()
-
-				if sel_item == 3:
-					gvars.status["light"] = "AUTO"
-
-				draw("WATER", "","CHANGED TO % " % gvars.status["water"], "")
-				time.sleep(1)
-				changeScreen(1)
+				elif self.buts.enter():
+					self.changeScreen(3)
 
 
-		time.sleep(0.5)
+			#Sensor
+			elif self.screen == 3:
+				if self.buts.up() or self.buts.down() or self.buts.enter():
+					self.changeScreen(1)
+				else:
+					self.screen3_count += 1
+
+					if self.screen3_count == 5:
+						self.draw_sensor(sel_item)
+						self.screen3_count = 0
+
+			#Setup
+			elif self.screen == 4:
+				if self.buts.up():
+					if self.sel_item > 1:
+						self.sel_item -= 1
+						self.draw_cursor(self.sel_item)
+
+				if self.buts.down():
+					if self.sel_item < 3:
+						self.sel_item +=1
+						self.draw_cursor(self.sel_item)
+
+				if self.buts.enter():
+					if self.sel_item == 1:
+						self.changeScreen(5)
+
+					elif self.sel_item == 2:
+						self.changeScreen(6)
+
+					elif self.sel_item == 3:
+						self.changeScreen(7)
+
+			#Wind
+			elif self.screen == 5:
+				if self.buts.up():
+					if self.sel_item > 1:
+						self.sel_item -= 1
+						self.draw_cursor(self.sel_item)
+
+				elif self.buts.down():
+					if self.sel_item < 3:
+						self.sel_item +=1
+						self.draw_cursor(self.sel_item)
+
+				elif self.buts.enter():
+					if self.sel_item == 1:
+						gvars.status["wind"] = "ON"
+						self.sc.windOn()
+
+					elif self.sel_item == 2:
+						gvars.status["wind"] = "OFF"
+						self.sc.windOff()
+
+					elif self.sel_item == 3:
+						gvars.status["wind"] = "AUTO"
+
+					self.draw("VENTILATION", "","CHANGED TO % " % gvars.status["wind"], "")
+					time.sleep(1)
+					self.changeScreen(1)
+
+			#Water
+			elif self.screen == 6:
+				if self.buts.up():
+					if self.sel_item > 1:
+						self.sel_item -= 1
+						self.draw_cursor(self.sel_item)
+
+				elif self.buts.down():
+					if self.sel_item < 3:
+						self.sel_item +=1
+						self.draw_cursor(self.sel_item)
+
+				elif self.buts.enter():
+					if self.sel_item == 1:
+						gvars.status["water"] = "ON"
+						self.sc.waterOn()
+
+					elif self.sel_item == 2:
+						gvars.status["water"] = "OFF"
+						self.sc.waterOn()
+
+					elif self.sel_item == 3:
+						gvars.status["water"] = "AUTO"
+
+					self.draw("WATER", "","CHANGED TO % " % gvars.status["water"], "")
+					time.sleep(1)
+					self.changeScreen(1)
+
+
+			#Light
+			elif self.screen == 7:
+				if self.buts.up():
+					if self.sel_item > 1:
+						self.sel_item -= 1
+						self.draw_cursor(sel_item)
+
+				elif self.buts.down():
+					if self.sel_item < 3:
+						self.sel_item +=1
+						self.draw_cursor(sel_item)
+
+				elif self.buts.enter():
+					if self.sel_item == 1:
+						gvars.status["light"] = "ON"
+						self.sc.lightOn()
+
+					elif self.sel_item == 2:
+						gvars.status["light"] = "OFF"
+						self.sc.lightOff()
+
+					elif self.sel_item == 3:
+						gvars.status["light"] = "AUTO"
+
+					self.draw("WATER", "","CHANGED TO % " % gvars.status["water"], "")
+					time.sleep(1)
+					self.changeScreen(1)
+
+
+			time.sleep(0.5)
