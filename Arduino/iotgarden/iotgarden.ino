@@ -1,12 +1,24 @@
 #include <OneWire.h>
 #include <DHT11.h>
 
+#define PIN_HUMIDITY1 A0
+#define PIN_HUMIDITY2 A1
+#define PIN_LIGHT     A2
 
-OneWire temp(2);
+#define PIN_TEMPERATURE 2
+#define PIN_DHTXX1      3
+#define PIN_DHTXX2      4
+
+#define PIN_RELAY_LIGHT 8
+#define PIN_RELAY_WIND  9
+#define PIN_RELAY_WATER 10
+
+
+OneWire temp(PIN_TEMPERATURE);
 byte temp_addr[2][8];
 
-DHT11 dht1(3);
-DHT11 dht2(4);
+DHT11 dht1(PIN_DHTXX1);
+DHT11 dht2(PIN_DHTXX2);
 
 float ext1_h_old, ext1_t_old, ext2_h_old, ext2_t_old;
 
@@ -16,19 +28,19 @@ void setup() {
   temp.search(temp_addr[0]);
   temp.search(temp_addr[1]);
 
-  pinMode(7, OUTPUT);
-  pinMode(8, OUTPUT);
-  pinMode(9, OUTPUT);
-  digitalWrite(7, LOW);
-  digitalWrite(8, LOW);
-  digitalWrite(9, LOW);
+  pinMode(PIN_RELAY_LIGHT, OUTPUT);
+  pinMode(PIN_RELAY_WIND, OUTPUT);
+  pinMode(PIN_RELAY_WATER, OUTPUT);
+  digitalWrite(PIN_RELAY_LIGHT, LOW);
+  digitalWrite(PIN_RELAY_WIND, LOW);
+  digitalWrite(PIN_RELAY_WATER, LOW);
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-  int analog0 = analogRead(A0);
-  int analog1 = analogRead(A1);
-  int analog2 = analogRead(A2);
+  int analog0 = analogRead(PIN_HUMIDITY1);
+  int analog1 = analogRead(PIN_HUMIDITY2);
+  int analog2 = analogRead(PIN_LIGHT);
 
   float humitat1 = (1023 - analog0)/1024.0*100;
   float humitat2 = (1023 - analog1)/1024.0*100;
@@ -72,27 +84,27 @@ void loop() {
 
     switch(c) {
       case 'a':
-        digitalWrite(7, LOW);
+        digitalWrite(PIN_RELAY_LIGHT, LOW);
         break;
 
       case 'b':
-        digitalWrite(7, HIGH);
+        digitalWrite(PIN_RELAY_LIGHT, HIGH);
         break;
 
       case 'c':
-        digitalWrite(8, LOW);
+        digitalWrite(PIN_RELAY_WIND, LOW);
         break;
 
       case 'd':
-        digitalWrite(8, HIGH);
+        digitalWrite(PIN_RELAY_WIND, HIGH);
         break;
 
       case 'e':
-        digitalWrite(9, LOW);
+        digitalWrite(PIN_RELAY_WATER, LOW);
         break;
 
       case 'f':
-        digitalWrite(9, HIGH);
+        digitalWrite(PIN_RELAY_WATER, HIGH);
         break;
     }
 

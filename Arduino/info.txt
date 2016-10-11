@@ -4,13 +4,15 @@ Scheme Arduino UNO
 --------------------------------------------------------------------------------
            __________________
            |           AREF |
-           | IOREF       13 |
-           | RESET       12 |
-           | 3.3V        11 |
-           | 5V          10 |
-           | GND          9 | RELAY_WATER
-           | GND          8 | RELAY_WIND
-           | Vin          7 | RELAY_LIGHT
+           |            GND |
+           |             13 |
+           | IOREF       12 |
+           | RESET       11 |
+           | 3.3V        10 | RELAY_WATER
+           | 5V           9 | RELAY_WIND
+           | GND          8 | RELAY_LIGHT
+           | GND            |
+           | Vin          7 |
            |              6 |
 HUMIDITY 1 | A0           5 |
 HUMIDITY 2 | A1           4 | DHTXX 2
