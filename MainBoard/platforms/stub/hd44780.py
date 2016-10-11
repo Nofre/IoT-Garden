@@ -10,7 +10,7 @@ class hd44780:
 		return False
 
 	def send_string(self, string, y):
-		return False
+		print("STUB: DISPLAY %s @ %i" % (string, y))
 
 	def clear(self):
-		return False
+		print("STUB: CLEAR DISPLAY")

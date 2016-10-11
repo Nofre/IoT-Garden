@@ -4,19 +4,19 @@ class stub:
 		return [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0]
 
 	def lightOn(self):
-		return False
+		print("STUB: LIGHT ON")
 
 	def lightOff(self):
-		return False
+		print("STUB: LIGHT OFF")
 
 	def windOn(self):
-		return False
+		print("STUB: WIND ON")
 
 	def windOff(self):
-		return False
+		print("STUB: WIND OFF")
 
 	def waterOn(self):
-		return False
+		print("STUB: WATER ON")
 
 	def waterOff(self):
-		return False
+		print("STUB: WATER OFF")
