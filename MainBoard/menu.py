@@ -72,7 +72,7 @@ class menu:
 
 		elif n == 3:
 			self.screen3_count = 0
-			self.draw_sensor(sel_item)
+			self.draw_sensor(self.sel_item)
 
 		elif n == 4:
 			self.draw("  -----Setup------  ", "Ventilation", "Water", "Light")

@@ -13,12 +13,18 @@
 #define PIN_RELAY_WIND  9
 #define PIN_RELAY_WATER 10
 
+#define USE_SECOND_TEMPERATURE_SENSOR false
+#define USE_SECOND_DHTXX_SENSOR false
+
 
 OneWire temp(PIN_TEMPERATURE);
 byte temp_addr[2][8];
 
 DHT11 dht1(PIN_DHTXX1);
+
+#if USE_SECOND_DHTXX_SENSOR
 DHT11 dht2(PIN_DHTXX2);
+#endif
 
 float ext1_h_old, ext1_t_old, ext2_h_old, ext2_t_old;
 
@@ -26,7 +32,10 @@ void setup() {
   // put your setup code here, to run once:
   Serial.begin(57600);
   temp.search(temp_addr[0]);
+
+#if USE_SECOND_TEMPERATURE_SENSOR
   temp.search(temp_addr[1]);
+#endif
 
   pinMode(PIN_RELAY_LIGHT, OUTPUT);
   pinMode(PIN_RELAY_WIND, OUTPUT);
@@ -53,16 +62,22 @@ void loop() {
     ext1_t_old = ext1_t;
   }
 
+#if USE_SECOND_DHTXX_SENSOR
   if (dht2.read(ext2_h, ext2_t) == 0) {
     ext2_h_old = ext2_h;
     ext2_t_old = ext2_t;
   }
+#endif
 
 
 
   Serial.print(ext1_h_old); //id 0
   Serial.print("|");
+#if USE_SECOND_DHTXX_SENSOR
   Serial.print(ext2_h_old); //id 1
+#else
+  Serial.print("00.00");
+#endif
   Serial.print("|");
   Serial.print(humitat1); //id 2
   Serial.print("|");
@@ -70,11 +85,19 @@ void loop() {
   Serial.print("|");
   Serial.print(ext1_t_old); //id 4
   Serial.print("|");
+#if USE_SECOND_DHTXX_SENSOR
   Serial.print(ext2_t_old); //id 5
+#else
+  Serial.print("00.00");
+#endif
   Serial.print("|");
   Serial.print(getTemp(0)); //id 6
   Serial.print("|");
+#if USE_SECOND_TEMPERATURE_SENSOR
   Serial.print(getTemp(1)); //id 7
+#else
+  Serial.print("00.00");
+#endif
   Serial.print("|");
   Serial.print(llum);
   Serial.print("\n");

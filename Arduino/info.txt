@@ -15,9 +15,9 @@ Scheme Arduino UNO
            | Vin          7 |
            |              6 |
 HUMIDITY 1 | A0           5 |
-HUMIDITY 2 | A1           4 | DHTXX 2
+HUMIDITY 2 | A1           4 | DHTXX 2 (Optional)
 LIGHT      | A2           3 | DHTXX 1
-           | A3           2 | TEMPERATURE (2 OneWire Sensors)
+           | A3           2 | TEMPERATURE (Up to 2 OneWire Sensors)
            | A4           1 | NOT USED
            | A5           0 | NOT USED
            """"""""""""""""""
@@ -39,9 +39,11 @@ Send chars to control relays:
 
 
 
-Arduino sends values in a formated string every second by serial.
+Arduino sends values in a formatted string every 5 seconds by serial.
 Every value is a float.
 
-string = "(DHTXX 1 Humidity)|(DHTXX 1 Humidity)|(Humidity 1)|(Humidity 2)|(DHTXX Temperature 1)|(DHTXX Temperature 2)|(Temperature 1)|(Temperature 2)|(Light)\n"
+string = "(DHTXX 1 Humidity)|(DHTXX 2 Humidity)|(Humidity 1)|(Humidity 2)|(DHTXX 1 Temperature)|(DHTXX 2 Temperature)|(Temperature 1)|(Temperature 2)|(Light)\n"
 
 Example: "46.12|48.32|72.20|86.54|26.21|27.78|32.10|35.21|70.46\n"
+
+If the second temperature sensor or the second DHTXX aren't presents, the return values are 00.00.
