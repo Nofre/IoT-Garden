@@ -47,13 +47,13 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  int analog0 = analogRead(PIN_HUMIDITY1);
-  int analog1 = analogRead(PIN_HUMIDITY2);
-  int analog2 = analogRead(PIN_LIGHT);
+  int analog_humidity1 = analogRead(PIN_HUMIDITY1);
+  int analog_humidity2 = analogRead(PIN_HUMIDITY2);
+  int analog_light = analogRead(PIN_LIGHT);
 
-  float humitat1 = (1023 - analog0)/1024.0*100;
-  float humitat2 = (1023 - analog1)/1024.0*100;
-  float llum = (1023 - analog2)/1024.0*100;
+  float humidity_1 = (1023 - analog_humidity1)/1024.0*100;
+  float humidity_2 = (1023 - analog_humidity2)/1024.0*100;
+  float light = analog_light/1024.0*100;
 
   float ext1_h, ext1_t, ext2_h, ext2_t;
 
@@ -79,9 +79,9 @@ void loop() {
   Serial.print("00.00");
 #endif
   Serial.print("|");
-  Serial.print(humitat1); //id 2
+  Serial.print(humidity_1); //id 2
   Serial.print("|");
-  Serial.print(humitat2); //id 3
+  Serial.print(humidity_2); //id 3
   Serial.print("|");
   Serial.print(ext1_t_old); //id 4
   Serial.print("|");
@@ -99,7 +99,7 @@ void loop() {
   Serial.print("00.00");
 #endif
   Serial.print("|");
-  Serial.print(llum);
+  Serial.print(light);
   Serial.print("\n");
 
   while (Serial.available()) {

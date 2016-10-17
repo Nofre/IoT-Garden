@@ -163,7 +163,7 @@ class menu:
 					self.screen3_count += 1
 
 					if self.screen3_count == 5:
-						self.draw_sensor(sel_item)
+						self.draw_sensor(self.sel_item)
 						self.screen3_count = 0
 
 			#Setup
@@ -250,12 +250,12 @@ class menu:
 				if self.buts.up():
 					if self.sel_item > 1:
 						self.sel_item -= 1
-						self.draw_cursor(sel_item)
+						self.draw_cursor(self.sel_item)
 
 				elif self.buts.down():
 					if self.sel_item < 3:
 						self.sel_item +=1
-						self.draw_cursor(sel_item)
+						self.draw_cursor(self.sel_item)
 
 				elif self.buts.enter():
 					if self.sel_item == 1:
@@ -269,7 +269,7 @@ class menu:
 					elif self.sel_item == 3:
 						gvars.status["light"] = "AUTO"
 
-					self.draw("    LIGHT", "","  CHANGED TO %s" % gvars.status["water"], "")
+					self.draw("    LIGHT", "","  CHANGED TO %s" % gvars.status["light"], "")
 					time.sleep(2)
 					self.changeScreen(1)
 
