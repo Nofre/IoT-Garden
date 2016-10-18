@@ -27,16 +27,26 @@ class menu:
 
 
 	def draw_cursor(self, n):
-		self.hd.set_cursor(18,  1)
-		self.hd.send_data(' ')
-		self.hd.set_cursor(18,  2)
-		self.hd.send_data(' ')
-		self.hd.set_cursor(18,  3)
-		self.hd.send_data(' ')
-		self.hd.set_cursor(18,  4)
-		self.hd.send_data(' ')
+		for i in range(1, 4):
+			self.hd.set_cursor(18,  i)
+			self.hd.send_data(' ')
 
 		self.hd.set_cursor(18,  (n+1))
+		self.hd.send_data('*')
+
+
+	def draw_cursor2(self, n):
+		for i in range(1, 4):
+			self.hd.set_cursor(6,  i)
+			self.hd.send_data(' ')
+			self.hd.set_cursor(18,  i)
+			self.hd.send_data(' ')
+
+		if n < 4:
+			self.hd.set_cursor(6, n+1)
+		else:
+			self.hd.set_cursor(18, n-2)
+
 		self.hd.send_data('*')
 
 
@@ -80,20 +90,46 @@ class menu:
 			self.sel_item = 1
 
 		elif n == 5:
-			self.draw("Ventilation: %s" % gvars.status["wind"], "ON", "OFF", "AUTO")
-			self.draw_cursor(1)
-			self.sel_item = 1
+			self.draw("Ventilation: %s" % gvars.status["wind"], "ON    | SCHEDULE", "OFF   |", "AUTO  |")
+
+			if gvars.status["wind"] == "ON":
+				self.sel_item = 1
+			elif gvars.status["wind"] == "OFF":
+				self.sel_item = 2
+			elif gvars.status["wind"] == "AUTO":
+				self.sel_item = 3
+			elif gvars.status["wind"] == "SCHEDULE":
+				self.sel_item = 4
+
+			self.draw_cursor2(self.sel_item)
 
 		elif n == 6:
-			self.draw("Water: %s" % gvars.status["water"], "ON", "OFF", "AUTO")
-			self.draw_cursor(1)
-			self.sel_item = 1
+			self.draw("Water: %s" % gvars.status["water"], "ON    | SCHEDULE", "OFF   |", "AUTO  |")
+
+			if gvars.status["water"] == "ON":
+				self.sel_item = 1
+			elif gvars.status["water"] == "OFF":
+				self.sel_item = 2
+			elif gvars.status["water"] == "AUTO":
+				self.sel_item = 3
+			elif gvars.status["water"] == "SCHEDULE":
+				self.sel_item = 4
+
+			self.draw_cursor2(self.sel_item)
 
 		elif n == 7:
-			self.draw("Light: %s" % gvars.status["light"], "ON", "OFF", "AUTO")
-			self.draw_cursor(1)
-			self.sel_item = 1
+			self.draw("Light: %s" % gvars.status["light"], "ON    | SCHEDULE", "OFF   |", "AUTO  |")
 
+			if gvars.status["light"] == "ON":
+				self.sel_item = 1
+			elif gvars.status["light"] == "OFF":
+				self.sel_item = 2
+			elif gvars.status["light"] == "AUTO":
+				self.sel_item = 3
+			elif gvars.status["light"] == "SCHEDULE":
+				self.sel_item = 4
+
+			self.draw_cursor2(self.sel_item)
 
 	def inputLoop(self, none):
 
@@ -193,12 +229,12 @@ class menu:
 				if self.buts.up():
 					if self.sel_item > 1:
 						self.sel_item -= 1
-						self.draw_cursor(self.sel_item)
+						self.draw_cursor2(self.sel_item)
 
 				elif self.buts.down():
-					if self.sel_item < 3:
+					if self.sel_item < 4:
 						self.sel_item +=1
-						self.draw_cursor(self.sel_item)
+						self.draw_cursor2(self.sel_item)
 
 				elif self.buts.enter():
 					if self.sel_item == 1:
@@ -212,7 +248,10 @@ class menu:
 					elif self.sel_item == 3:
 						gvars.status["wind"] = "AUTO"
 
-					self.draw("    VENTILATION", "","  CHANGED TO %s" % gvars.status["wind"], "")
+					elif self.sel_item == 4:
+						gvars.status["wind"] = "SCHEDULE"
+
+					self.draw("    VENTILATION", ""," CHANGED TO %s" % gvars.status["wind"], "")
 					time.sleep(2)
 					self.changeScreen(1)
 
@@ -221,12 +260,12 @@ class menu:
 				if self.buts.up():
 					if self.sel_item > 1:
 						self.sel_item -= 1
-						self.draw_cursor(self.sel_item)
+						self.draw_cursor2(self.sel_item)
 
 				elif self.buts.down():
-					if self.sel_item < 3:
+					if self.sel_item < 4:
 						self.sel_item +=1
-						self.draw_cursor(self.sel_item)
+						self.draw_cursor2(self.sel_item)
 
 				elif self.buts.enter():
 					if self.sel_item == 1:
@@ -240,7 +279,10 @@ class menu:
 					elif self.sel_item == 3:
 						gvars.status["water"] = "AUTO"
 
-					self.draw("    WATER", "","  CHANGED TO %s" % gvars.status["water"], "")
+					elif self.sel_item == 4:
+						gvars.status["water"] = "SCHEDULE"
+
+					self.draw("    WATER", ""," CHANGED TO %s" % gvars.status["water"], "")
 					time.sleep(2)
 					self.changeScreen(1)
 
@@ -250,12 +292,12 @@ class menu:
 				if self.buts.up():
 					if self.sel_item > 1:
 						self.sel_item -= 1
-						self.draw_cursor(self.sel_item)
+						self.draw_cursor2(self.sel_item)
 
 				elif self.buts.down():
-					if self.sel_item < 3:
+					if self.sel_item < 4:
 						self.sel_item +=1
-						self.draw_cursor(self.sel_item)
+						self.draw_cursor2(self.sel_item)
 
 				elif self.buts.enter():
 					if self.sel_item == 1:
@@ -269,7 +311,10 @@ class menu:
 					elif self.sel_item == 3:
 						gvars.status["light"] = "AUTO"
 
-					self.draw("    LIGHT", "","  CHANGED TO %s" % gvars.status["light"], "")
+					elif self.sel_item == 4:
+						gvars.status["light"] = "SCHEDULE"
+
+					self.draw("    LIGHT", ""," CHANGED TO %s" % gvars.status["light"], "")
 					time.sleep(2)
 					self.changeScreen(1)
 

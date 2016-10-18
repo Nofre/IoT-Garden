@@ -1,7 +1,7 @@
 import cfg
 import serial
 
-class arduino:
+class sc_arduino:
 
 	ser = None
 

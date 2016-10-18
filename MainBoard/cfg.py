@@ -30,3 +30,57 @@ webPort = 8080
 
 #WebServer connection
 url = "http://127.0.0.1"
+
+#Initial status
+initial_status = {
+	"light"	: "OFF",
+	"water"	: "OFF",
+	"wind"	: "OFF"
+}
+
+
+#Thresholds
+thresholds = {
+	"light"		: 20.0,
+	"temp"		: 30.0,
+	"humidity"	: 50.0
+}
+
+#Schedule
+
+#Example
+#
+# "light" : {
+#   14 : {
+#     00 : "ON",
+#     05 : "OFF"
+#   },
+#   15 : {
+#     00 : "ON",
+#     05 : "OFF"
+# }
+#
+# This example turns on the light between 14.00 and 14.05 and between 15.00 and 15.05
+
+
+schedule = {
+	"light" : {
+		14 : {
+			00 : "OFF"
+		},
+		18 : {
+			00 : "ON"
+		}
+	},
+	"water" : {
+
+	},
+	"wind" : {
+		14 : {
+			00 : "OFF"
+		},
+		18 : {
+			00 : "ON"
+		}
+	}
+}

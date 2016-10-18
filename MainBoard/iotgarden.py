@@ -4,8 +4,8 @@ import datetime
 import thread
 import argparse
 
-import sensorsControllers.arduino as sc_arduino
-import sensorsControllers.stub as sc_stub
+from sensorsControllers.sc_arduino import sc_arduino
+from sensorsControllers.sc_stub import sc_stub
 from menu import menu
 import cfg
 import gvars
@@ -27,13 +27,45 @@ parser.add_argument(
 	action="store",
 	dest="sc",
 	default=cfg.sensorsController,
-	help="select the sensors' controller: Aruino, BuiltIn or stub",
+	help="select the sensors' controller: Arduino, BuiltIn or stub",
 	metavar="SC")
 
-args = parser.parse_args()
-cfg.platform = vars(args)["platform"]
-cfg.sensorsController = vars(args)["sc"]
+parser.add_argument(
+	"-islight", "--initialStatusLight",
+	action="store",
+	dest="islight",
+	default=cfg.initial_status["light"],
+	help="Light relay initial status",
+	metavar="ISLIGHT")
 
+parser.add_argument(
+	"-iswater", "--initialStatusWater",
+	action="store",
+	dest="iswater",
+	default=cfg.initial_status["water"],
+	help="Water relay initial status",
+	metavar="ISWATER")
+
+parser.add_argument(
+	"-iswind", "--initialStatusWind",
+	action="store",
+	dest="iswind",
+	default=cfg.initial_status["wind"],
+	help="Wind relay initial status",
+	metavar="ISWIND")
+
+args = vars(parser.parse_args())
+cfg.platform = args["platform"]
+cfg.sensorsController = args["sc"]
+
+if args["islight"] == "ON" or args["islight"] == "OFF" or args["islight"] == "AUTO" or args["islight"] == "SCHEDULE":
+	gvars.status["light"] = args["islight"]
+
+if args["iswater"] == "ON" or args["iswater"] == "OFF" or args["iswater"] == "AUTO" or args["iswater"] == "SCHEDULE":
+	gvars.status["water"] = args["iswater"]
+
+if args["iswind"] == "ON" or args["iswind"] == "OFF" or args["iswind"] == "AUTO" or args["iswind"] == "SCHEDULE":
+	gvars.status["wind"] = args["iswind"]
 
 
 if cfg.platform == "Beagle":
@@ -52,13 +84,18 @@ sc = None
 
 #Sensors' controller
 if cfg.sensorsController == "Arduino":
-	sc = sc_arduino.arduino(cfg.serialPort, cfg.baudRate)
+	sc = sc_arduino(cfg.serialPort, cfg.baudRate)
+
 elif cfg.sensorsController == "BuiltIn":
-	#TODO
-	#cfg.sensorsController = builtInSensors()
-	print("BuiltIn sensors not implemented")
+	if cfg.platform == "Beagle":
+		from platforms.BeagleBone.sensorsController import sc_beagle
+		sc = sc_beagle.sc_beagle()
+	elif cfg.platform == "RPi":
+		from platforms.RPi.sensorsController import sc_rpi
+		sc = sc_rpi.sc_rpi()
+
 elif cfg.sensorsController == "stub":
-	sc = sc_stub.stub()
+	sc = sc_stub()
 
 
 #Display

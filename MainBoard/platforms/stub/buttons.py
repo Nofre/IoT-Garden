@@ -7,4 +7,4 @@ class buttons:
 		return False
 
 	def enter(self):
-		return not False
+		return False
