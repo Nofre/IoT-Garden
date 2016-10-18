@@ -36,7 +36,7 @@ class menu:
 
 
 	def draw_cursor2(self, n):
-		for i in range(1, 4):
+		for i in range(2, 4):
 			self.hd.set_cursor(6,  i)
 			self.hd.send_data(' ')
 			self.hd.set_cursor(18,  i)
@@ -90,7 +90,7 @@ class menu:
 			self.sel_item = 1
 
 		elif n == 5:
-			self.draw("Ventilation: %s" % gvars.status["wind"], "ON    | SCHEDULE", "OFF   |", "AUTO  |")
+			self.draw("Ventilation: %s" % gvars.status["wind"], "ON     |  SCHEDULE", "OFF    |", "AUTO   |")
 
 			if gvars.status["wind"] == "ON":
 				self.sel_item = 1
@@ -104,7 +104,7 @@ class menu:
 			self.draw_cursor2(self.sel_item)
 
 		elif n == 6:
-			self.draw("Water: %s" % gvars.status["water"], "ON    | SCHEDULE", "OFF   |", "AUTO  |")
+			self.draw("Water: %s" % gvars.status["water"], "ON     |  SCHEDULE", "OFF    |", "AUTO   |")
 
 			if gvars.status["water"] == "ON":
 				self.sel_item = 1
@@ -118,7 +118,7 @@ class menu:
 			self.draw_cursor2(self.sel_item)
 
 		elif n == 7:
-			self.draw("Light: %s" % gvars.status["light"], "ON    | SCHEDULE", "OFF   |", "AUTO  |")
+			self.draw("Light: %s" % gvars.status["light"], "ON     |  SCHEDULE", "OFF    |", "AUTO   |")
 
 			if gvars.status["light"] == "ON":
 				self.sel_item = 1

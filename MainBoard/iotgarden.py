@@ -3,6 +3,7 @@ import requests
 import datetime
 import thread
 import argparse
+import sys
 
 from sensorsControllers.sc_arduino import sc_arduino
 from sensorsControllers.sc_stub import sc_stub
@@ -71,14 +72,19 @@ if args["iswind"] == "ON" or args["iswind"] == "OFF" or args["iswind"] == "AUTO"
 if cfg.platform == "Beagle":
 	from platforms.BeagleBone.buttons import buttons
 	from platforms.BeagleBone.hd44780 import hd44780
+	from platforms.BeagleBone.sensorsController import sc_builtin
 elif cfg.platform == "RPi":
 	#TODO
 	#from platforms.RPi.buttons import buttons
 	#from platforms.RPi.hd44780 import hd44780
+	from platforms.RPi.sensorsController import sc_builtin
 	print("RPi not implemented")
 elif cfg.platform == "stub":
 	from platforms.stub.buttons import buttons
 	from platforms.stub.hd44780 import hd44780
+else:
+	print("Platform %s not valid" % cfg.platform)
+	sys.exit()
 
 sc = None
 
@@ -87,15 +93,13 @@ if cfg.sensorsController == "Arduino":
 	sc = sc_arduino(cfg.serialPort, cfg.baudRate)
 
 elif cfg.sensorsController == "BuiltIn":
-	if cfg.platform == "Beagle":
-		from platforms.BeagleBone.sensorsController import sc_beagle
-		sc = sc_beagle.sc_beagle()
-	elif cfg.platform == "RPi":
-		from platforms.RPi.sensorsController import sc_rpi
-		sc = sc_rpi.sc_rpi()
+	sc = sc_builtin()
 
 elif cfg.sensorsController == "stub":
 	sc = sc_stub()
+else:
+	print("Sensors Controller %s not valid" % cfg.sensorsController)
+	sys.exit()
 
 
 #Display

@@ -1,5 +1,3 @@
-import sensorController
-
 class sc_stub:
 
 	def read(self):
