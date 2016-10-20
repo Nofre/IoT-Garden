@@ -5,24 +5,37 @@ function convertDate(inputFormat) {
 
 function updateData() {
 
-	for(var i = 0; i < data.length; ++i) {
-		var samples = [];
-		var dataY = [];
+	$.ajax({
+		url: 'http://localhost/api/data',
+		success: function(data) {
+			refreshData(data.data);
+		},
+	});
+}
 
-		for(var j in data[i].samples) {
-			samples.push([j, data[i].samples[j].value]);
-			var aux = convertDate(data[i].samples[j].date);
-			dataY.push([j, j]);
-		}
+function refreshData(data_in) {
 
-		data[i].samples = samples;
-		data[i].dates = dataY;
+	var data = { "exth1" : [], "exth2" : [], "h1" : [], "h2" : [], "extt1" : [], "extt2" : [], "t1" : [], "t2" : [], "light" : [], "timestamp" : []};
+
+	for(var i = 0; i < data_in.length; ++i) {
+
+		data["exth1"][i] = [i, data_in[i]["exth1"]];
+		data["exth2"][i] = [i, data_in[i]["exth2"]];
+		data["h1"][i] = [i, data_in[i]["h1"]];
+		data["h2"][i] = [i, data_in[i]["h2"]];
+		data["extt1"][i] = [i, data_in[i]["extt1"]];
+		data["extt2"][i] = [i, data_in[i]["extt2"]];
+		data["t1"][i] = [i, data_in[i]["t1"]];
+		data["t2"][i] = [i, data_in[i]["t2"]];
+		data["light"][i] = [i, data_in[i]["light"]];
+
+		data["timestamp"][i] = i;
 	}
 
 	$.plot($("#ext-humidity-chart1"),
 		[{
-			data : data[0].samples,
-			label : data[0].name,
+			data : data["exth1"],
+			label : "Exterior humidity 1",
 			color: "#0a3683"
 		}],
 		{
@@ -74,7 +87,7 @@ function updateData() {
 			},
 			xaxis : {
 				tickColor : '#f5f5f5',
-				ticks: data[0].dates,
+				ticks: data["timestamp"],
 				rotateTicks: 45,
 				font : {
 					color : '#bdbdbd'
@@ -94,78 +107,79 @@ function updateData() {
 
 	$.plot($("#ext-humidity-chart2"),
 		[{
-			data : data[1].samples,
-			label : data[1].name,
+			data : data["exth2"],
+			label : "Exterior humidity 2",
 			color: "#0a3683"
 		}],
 		{
 			series: {
 				lines : {
-				show : true,
-				fill : true,
-				lineWidth : 2,
-				fillColor : {
-				    colors : [{
-				        opacity : 0.05
-				    }, {
-				        opacity : 0.05
-				    }]
+					show : true,
+					fill : true,
+					lineWidth : 2,
+					fillColor : {
+						colors : [{
+							opacity : 0.05
+						}, {
+							opacity : 0.05
+						}]
+					}
+				},
+				points: {
+					show: false
+				},
+				shadowSize : 0
+			},
+			grid : {
+				hoverable : true,
+				clickable : true,
+				borderColor : "#f9f9f9",
+				tickColor : "#AAAAAA",
+				borderWidth : 1,
+				labelMargin : 10,
+				backgroundColor : "#fff"
+			},
+			legend : {
+				position : "ne",
+				margin : [0, -24],
+				noColumns : 0,
+				labelBoxBorderColor : null,
+				labelFormatter : function(label, series) {
+					// just add some space to labes
+					return '' + label + '&nbsp;&nbsp;';
+				},
+				width : 30,
+				height : 2
+			},
+			yaxis : {
+				tickColor : '#f5f5f5',
+				tickDecimals: 0,
+				font : {
+					color : '#bdbdbd'
 				}
-		        },
-		  points: {
-		    show: false
-		  },
-		  shadowSize : 0
-		},
-		grid : {
-		        hoverable : true,
-		        clickable : true,
-		        borderColor : "#f9f9f9",
-		        tickColor : "#AAAAAA",
-		        borderWidth : 1,
-		        labelMargin : 10,
-		        backgroundColor : "#fff"
-		    },
-		legend : {
-		        position : "ne",
-		        margin : [0, -24],
-		        noColumns : 0,
-		        labelBoxBorderColor : null,
-		        labelFormatter : function(label, series) {
-				// just add some space to labes
-				return '' + label + '&nbsp;&nbsp;';
-		        },
-		        width : 30,
-		        height : 2
-		    },
-		yaxis : {
-		        tickColor : '#f5f5f5',
-		  tickDecimals: 0,
-		        font : {
-				color : '#bdbdbd'
-		        }
-		    },
-		    xaxis : {
-		        tickColor : '#f5f5f5',
-		  ticks: data[0].dates,
-		  rotateTicks: 45,
-		        font : {
-				color : '#bdbdbd'
-		        }
-		    },
-		    tooltip : true,
-		    tooltipOpts : {
-		        content : '%s: %y',
-		        shifts : {
-				x : -60,
-				y : 25
-		        },
-		        defaultTheme : false
-		    }
+			},
+			xaxis : {
+				tickColor : '#f5f5f5',
+				ticks: data["timestamp"],
+				rotateTicks: 45,
+				font : {
+					color : '#bdbdbd'
+				}
+			},
+			tooltip : true,
+			tooltipOpts : {
+				content : '%s: %y',
+				shifts : {
+					x : -60,
+					y : 25
+				},
+				defaultTheme : false
+			}
 		});
+
 		$.plot($("#int-humidity-chart1"), [{
-		data : data[2].samples,
-		label : data[2].name,
+		data : data["h1"],
+		label : "Humidity 1",
 		color: "#0a3683"
 		}], {
 		series: {
@@ -216,7 +230,7 @@ function updateData() {
 		    },
 		    xaxis : {
 		        tickColor : '#f5f5f5',
-		  ticks: data[0].dates,
+		  ticks: data["timestamp"],
 		  rotateTicks: 45,
 		        font : {
 				color : '#bdbdbd'
@@ -233,8 +247,8 @@ function updateData() {
 		    }
 		});
 		$.plot($("#int-humidity-chart2"), [{
-		data : data[3].samples,
-		label : data[3].name,
+		data : data["h2"],
+		label : "Humidity 2",
 		color: "#0a3683"
 		}], {
 		series: {
@@ -285,7 +299,7 @@ function updateData() {
 		    },
 		    xaxis : {
 		        tickColor : '#f5f5f5',
-		  ticks: data[0].dates,
+		  ticks: data["timestamp"],
 		  rotateTicks: 45,
 		        font : {
 				color : '#bdbdbd'
@@ -302,8 +316,8 @@ function updateData() {
 		    }
 		});
 		$.plot($("#ext-temperature-chart1"), [{
-		data : data[4].samples,
-		label : data[4].name,
+		data : data["extt1"],
+		label : "Exterior temperature 1",
 		color: "#CF482E"
 		}], {
 		series: {
@@ -354,7 +368,7 @@ function updateData() {
 		    },
 		    xaxis : {
 		        tickColor : '#f5f5f5',
-		  ticks: data[0].dates,
+		  ticks: data["timestamp"],
 		  rotateTicks: 45,
 		        font : {
 				color : '#bdbdbd'
@@ -371,8 +385,8 @@ function updateData() {
 		    }
 		});
 		$.plot($("#ext-temperature-chart2"), [{
-		data : data[5].samples,
-		label : data[5].name,
+		data : data["extt2"],
+		label : "Exterior temperature 2",
 		color: "#CF482E"
 		}], {
 		series: {
@@ -423,7 +437,7 @@ function updateData() {
 		    },
 		    xaxis : {
 		        tickColor : '#f5f5f5',
-		  ticks: data[0].dates,
+				ticks: data["timestamp"],
 		  rotateTicks: 45,
 		        font : {
 				color : '#bdbdbd'
@@ -440,8 +454,8 @@ function updateData() {
 		    }
 		});
 		$.plot($("#int-temperature-chart1"), [{
-		data : data[6].samples,
-		label : data[6].name,
+		data : data["t1"],
+		label : "Temperature 1",
 		color: "#CF482E"
 		}], {
 		series: {
@@ -492,7 +506,7 @@ function updateData() {
 		    },
 		    xaxis : {
 		        tickColor : '#f5f5f5',
-		  ticks: data[0].dates,
+				ticks: data["timestamp"],
 		  rotateTicks: 45,
 		        font : {
 				color : '#bdbdbd'
@@ -509,8 +523,8 @@ function updateData() {
 		    }
 		});
 		$.plot($("#int-temperature-chart2"), [{
-		data : data[7].samples,
-		label : data[7].name,
+		data : data["t2"],
+		label : "Temperature 2",
 		color: "#CF482E"
 		}], {
 		series: {
@@ -561,7 +575,7 @@ function updateData() {
 		    },
 		    xaxis : {
 		        tickColor : '#f5f5f5',
-		  ticks: data[0].dates,
+				ticks: data["timestamp"],
 		  rotateTicks: 45,
 		        font : {
 				color : '#bdbdbd'
@@ -580,8 +594,8 @@ function updateData() {
 
 	$.plot($("#light-chart"),
 		[{
-			data : data[8].samples,
-			label : data[8].name,
+			data : data["light"],
+			label : "Light",
 			color: "#FFB41E"
 		}],
 		{
@@ -633,7 +647,7 @@ function updateData() {
 			},
 			xaxis : {
 				tickColor : '#f5f5f5',
-				ticks: data[0].dates,
+				ticks: data["timestamp"],
 				rotateTicks: 45,
 				font : {
 					color : '#bdbdbd'

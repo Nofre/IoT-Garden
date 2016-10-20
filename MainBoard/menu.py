@@ -52,13 +52,13 @@ class menu:
 
 	def draw_sensor(self, n):
 		if n == 0:
-			self.draw("Outside 1", "", "Temp: %s *C" % gvars.values["exttemp1"], "Humidity: %s%%" % gvars.values["exthumidity1"])
+			self.draw("Outside 1", "", "Temp: %s *C" % gvars.values["extt1"], "Humidity: %s%%" % gvars.values["exth1"])
 		elif n == 1:
-			self.draw("Outside 2", "", "Temp: %s *C" % gvars.values["exttemp2"], "Humidity: %s%%" % gvars.values["exthumidity2"])
+			self.draw("Outside 2", "", "Temp: %s *C" % gvars.values["extt2"], "Humidity: %s%%" % gvars.values["exth2"])
 		elif n == 2:
-			self.draw("Inside Humidity", "", "Sensor 1: %s%%" % gvars.values["humidity1"], "Sensor 2: %s%%" % gvars.values["humidity2"])
+			self.draw("Inside Humidity", "", "Sensor 1: %s%%" % gvars.values["h1"], "Sensor 2: %s%%" % gvars.values["h2"])
 		elif n == 3:
-			self.draw("Inside Temperature", "", "Sensor 1: %s *C" % gvars.values["temp1"], "Sensor 2: %s *C" % gvars.values["temp2"])
+			self.draw("Inside Temperature", "", "Sensor 1: %s *C" % gvars.values["t1"], "Sensor 2: %s *C" % gvars.values["t2"])
 
 
 	def changeScreen(self, n):

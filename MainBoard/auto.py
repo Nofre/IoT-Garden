@@ -14,7 +14,7 @@ def auto(sc):
 		d = datetime.datetime.now()
 
 		if gvars.status["wind"] == "AUTO":
-			if gvars.values["temp1"] > cfg.thresholds["temp"] or gvars.values["temp2"] > cfg.thresholds["temp"]:
+			if gvars.values["t1"] > cfg.thresholds["temp"] or gvars.values["t2"] > cfg.thresholds["temp"]:
 				if status_wind_auto != "ON":
 					sc.windOn()
 					status_wind_auto = "ON"
@@ -38,7 +38,7 @@ def auto(sc):
 			status_wind_auto = "UNK"
 
 		if gvars.status["water"] == "AUTO":
-			if gvars.values["humidity1"] < cfg.thresholds["humidity"] or gvars.values["humidity2"] < cfg.thresholds["humidity"]:
+			if gvars.values["h1"] < cfg.thresholds["humidity"] or gvars.values["h2"] < cfg.thresholds["humidity"]:
 				if status_water_auto != "ON":
 					sc.waterOn()
 					status_water_auto = "ON"
