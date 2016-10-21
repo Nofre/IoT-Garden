@@ -6,7 +6,7 @@ class sc_arduino:
 	ser = None
 
 	def checkSerial(self):
-		if not self.ser.is_open:
+		if not self.ser.isOpen():
 			self.ser.open()
 
 	def __init__(self, port, baud):
