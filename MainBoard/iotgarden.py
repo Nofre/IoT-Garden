@@ -123,29 +123,29 @@ thread.start_new_thread(m.inputLoop, (None,))
 while True:
 	new_values = sc.read()
 
-	if abs(gvars.values["exthumidity1"] - new_values[0]) > 1:
-		gvars.values["exthumidity1"] = new_values[0]
+	if abs(gvars.values["exth1"] - new_values[0]) > 1:
+		gvars.values["exth1"] = new_values[0]
 
-	if abs(gvars.values["exthumidity2"] - new_values[1]) > 1:
-		gvars.values["exthumidity2"] = new_values[1]
+	if abs(gvars.values["exth2"] - new_values[1]) > 1:
+		gvars.values["exth2"] = new_values[1]
 
-	if abs(gvars.values["humidity1"] - new_values[2]) > 1:
-		gvars.values["humidity1"] = new_values[2]
+	if abs(gvars.values["h1"] - new_values[2]) > 1:
+		gvars.values["h1"] = new_values[2]
 
-	if abs(gvars.values["humidity2"] - new_values[3]) > 1:
-		gvars.values["humidity2"] = new_values[3]
+	if abs(gvars.values["h2"] - new_values[3]) > 1:
+		gvars.values["h2"] = new_values[3]
 
-	if abs(gvars.values["exttemp1"] - new_values[4]) > 1:
-		gvars.values["exttemp1"] = new_values[4]
+	if abs(gvars.values["extt1"] - new_values[4]) > 1:
+		gvars.values["extt1"] = new_values[4]
 
-	if abs(gvars.values["exttemp2"] - new_values[5]) > 1:
-		gvars.values["extemp2"] = new_values[5]
+	if abs(gvars.values["extt2"] - new_values[5]) > 1:
+		gvars.values["extt2"] = new_values[5]
 
-	if abs(gvars.values["temp1"] - new_values[6]) > 1:
-		gvars.values["temp1"] = new_values[6]
+	if abs(gvars.values["t1"] - new_values[6]) > 1:
+		gvars.values["t1"] = new_values[6]
 
-	if abs(gvars.values["temp2"] - new_values[7]) > 1:
-		gvars.values["temp2"] = new_values[7]
+	if abs(gvars.values["t2"] - new_values[7]) > 1:
+		gvars.values["t2"] = new_values[7]
 
 	if abs(gvars.values["light"] - new_values[8]) > 1:
 		gvars.values["light"] = new_values[8]
@@ -153,6 +153,9 @@ while True:
 		date = datetime.datetime.now()
 		date += datetime.timedelta(hours=2)
 
-#	r = requests.post(cfg.url, data={'values' : gvars.values, 'date' : str(date)})
+	try:
+		requests.post(cfg.url+"/api/data", data=gvars.values)
+	except:
+		print "request exception"
 
 	time.sleep(5)

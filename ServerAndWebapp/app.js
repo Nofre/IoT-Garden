@@ -1,28 +1,18 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var mongoose = require('./config/mongoose');
+var express = require('express'),
+	app = express(),
+	path = require('path'),
+	bodyParser = require('body-parser'),
+	fs = require('fs'),
+	sqlite3 = require('sqlite3').verbose();
 
-var db = mongoose();
-var app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', './views');
 app.set('view engine', 'ejs');
-
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
+app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-
-var routes = require('./routes');
-app.use('/', routes);
+app.use(require('./controllers'));
 
 
 app.use(function(req, res, next){
@@ -45,5 +35,16 @@ app.use(function(err, req, res, next) {
   res.status(500).json({ message : 'Internal Server Error' });
 });
 
+
+var file = 'data.db';
+var exists = fs.existsSync(file);
+var db = new sqlite3.Database(file);
+
+db.serialize(function() {
+	if(!exists) {
+		db.run('CREATE TABLE data(exth1 REAL, exth2 REAL, h1 REAL, h2 REAL, extt1 REAL, extt2 REAL, t1 REAL, t2 REAL, light REAL);');
+	}
+});
+db.close();
 
 module.exports = app;
