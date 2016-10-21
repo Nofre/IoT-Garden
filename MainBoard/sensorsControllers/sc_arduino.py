@@ -5,6 +5,10 @@ class sc_arduino:
 
 	ser = None
 
+	def checkSerial(self):
+		if not self.ser.is_open:
+			self.ser.open()
+
 	def __init__(self, port, baud):
 		self.ser = serial.Serial(port = port, baudrate = baud)
 
@@ -12,6 +16,7 @@ class sc_arduino:
 		self.ser.close();
 
 	def read(self):
+		self.checkSerial()
 
 		c = '@'
 		out = ""
@@ -37,19 +42,25 @@ class sc_arduino:
 
 
 	def lightOn(self):
+		self.checkSerial()
 		self.ser.write('b')
 
 	def lightOff(self):
+		self.checkSerial()
 		self.ser.write('a')
 
 	def windOn(self):
+		self.checkSerial()
 		self.ser.write('d')
 
 	def windOff(self):
+		self.checkSerial()
 		self.ser.write('e')
 
 	def waterOn(self):
+		self.checkSerial()
 		self.ser.write('f')
 
 	def waterOff(self):
+		self.checkSerial()
 		self.ser.write('e')
