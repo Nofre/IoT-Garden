@@ -6,7 +6,7 @@ function convertDate(inputFormat) {
 function updateData() {
 
 	$.ajax({
-		url: 'http://localhost/api/data',
+		url: 'http://'+window.location.hostname+'/api/data',
 		success: function(data) {
 			refreshData(data.data);
 		},
