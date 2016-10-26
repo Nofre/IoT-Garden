@@ -86,3 +86,26 @@ def auto(sc):
 			status_light_auto = "UNK"
 
 		time.sleep(2)
+
+def checkNowStatus(schedule):
+		d = datetime.datetime.now()
+		hour = d.hour
+		minute = d.minute
+		i = 0
+
+		while i < 24*60:
+			if hour in schedule:
+				if minute in schedule[hour]:
+					return schedule[hour][minute]
+				else:
+					minute -= 1
+					if minute == -1:
+						minute = 59
+			else:
+				hour -= 1
+				if hour == -1:
+					hour = 23
+
+			i += 1
+
+		return "OFF"

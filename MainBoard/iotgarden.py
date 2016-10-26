@@ -108,19 +108,18 @@ m = menu(sc, hd, buts)
 
 if args["islight"] == "ON" or args["islight"] == "OFF" or args["islight"] == "AUTO" or args["islight"] == "SCHEDULE":
 	gvars.status["light"] = args["islight"]
-	if args["islight"] == "ON":
-		sc.lightOn();
+	if args["islight"] == "ON" or (args["islight"] == "SCHEDULE" and auto.checkNowStatus(cfg.schedule["light"]) == "ON"):
+		sc.lightOn()
 
 if args["iswater"] == "ON" or args["iswater"] == "OFF" or args["iswater"] == "AUTO" or args["iswater"] == "SCHEDULE":
 	gvars.status["water"] = args["iswater"]
-	if args["iswater"] == "ON":
-		sc.waterOn();
+	if args["iswater"] == "ON" or (args["iswater"] == "SCHEDULE" and auto.checkNowStatus(cfg.schedule["water"]) == "ON"):
+		sc.waterOn()
 
 if args["iswind"] == "ON" or args["iswind"] == "OFF" or args["iswind"] == "AUTO" or args["iswind"] == "SCHEDULE":
 	gvars.status["wind"] = args["iswind"]
-	if args["iswind"] == "ON":
-		sc.windOn();
-
+	if args["iswind"] == "ON" or (args["iswind"] == "SCHEDULE" and auto.checkNowStatus(cfg.schedule["wind"]) == "ON"):
+		sc.windOn()
 
 
 thread.start_new_thread(auto.auto, (sc,))
