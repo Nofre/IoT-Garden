@@ -128,40 +128,49 @@ thread.start_new_thread(m.inputLoop, (None,))
 
 
 while True:
-	new_values = sc.read()
+	new_values1 = sc.read()
+	time.sleep(5)
+	new_values2 = sc.read()
+	time.sleep(5)
+	new_values3 = sc.read()
 
-	if abs(gvars.values["exth1"] - new_values[0]) > 1:
-		gvars.values["exth1"] = new_values[0]
+	new_values_avg = [0, 0, 0, 0, 0, 0, 0, 0, 0]
 
-	if abs(gvars.values["exth2"] - new_values[1]) > 1:
-		gvars.values["exth2"] = new_values[1]
+	for i in range(0, 8):
+		new_values_avg[i] = (new_values1[i]+new_values2[i]+new_values3[i])/3;
 
-	if abs(gvars.values["h1"] - new_values[2]) > 1:
-		gvars.values["h1"] = new_values[2]
+	if abs(gvars.values["exth1"] - new_values_avg[0]) > 1:
+		gvars.values["exth1"] = new_values_avg[0]
 
-	if abs(gvars.values["h2"] - new_values[3]) > 1:
-		gvars.values["h2"] = new_values[3]
+	if abs(gvars.values["exth2"] - new_values_avg[1]) > 1:
+		gvars.values["exth2"] = new_values_avg[1]
 
-	if abs(gvars.values["extt1"] - new_values[4]) > 1:
-		gvars.values["extt1"] = new_values[4]
+	if abs(gvars.values["h1"] - new_values_avg[2]) > 1:
+		gvars.values["h1"] = new_values_avg[2]
 
-	if abs(gvars.values["extt2"] - new_values[5]) > 1:
-		gvars.values["extt2"] = new_values[5]
+	if abs(gvars.values["h2"] - new_values_avg[3]) > 1:
+		gvars.values["h2"] = new_values_avg[3]
 
-	if abs(gvars.values["t1"] - new_values[6]) > 1:
-		gvars.values["t1"] = new_values[6]
+	if abs(gvars.values["extt1"] - new_values_avg[4]) > 1:
+		gvars.values["extt1"] = new_values_avg[4]
 
-	if abs(gvars.values["t2"] - new_values[7]) > 1:
-		gvars.values["t2"] = new_values[7]
+	if abs(gvars.values["extt2"] - new_values_avg[5]) > 1:
+		gvars.values["extt2"] = new_values_avg[5]
 
-	if abs(gvars.values["light"] - new_values[8]) > 1:
-		gvars.values["light"] = new_values[8]
+	if abs(gvars.values["t1"] - new_values_avg[6]) > 1:
+		gvars.values["t1"] = new_values_avg[6]
 
-		date = datetime.datetime.now()
-		date += datetime.timedelta(hours=2)
+	if abs(gvars.values["t2"] - new_values_avg[7]) > 1:
+		gvars.values["t2"] = new_values_avg[7]
+
+	if abs(gvars.values["light"] - new_values_avg[8]) > 1:
+		gvars.values["light"] = new_values_avg[8]
 
 	try:
-		requests.post(cfg.url+"/api/data", data=gvars.values)
+		date = datetime.datetime.now()
+		date += datetime.timedelta(hours=2)
+		data = {"date": date.strftime("%Y-%m-%d %H:%M:%S"), "values" : gvars.values}
+		requests.post(cfg.url+"/api/data", json=data)
 	except:
 		print "request exception"
 

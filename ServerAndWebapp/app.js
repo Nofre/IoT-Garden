@@ -42,7 +42,7 @@ var db = new sqlite3.Database(file);
 
 db.serialize(function() {
 	if(!exists) {
-		db.run('CREATE TABLE data(exth1 REAL, exth2 REAL, h1 REAL, h2 REAL, extt1 REAL, extt2 REAL, t1 REAL, t2 REAL, light REAL);');
+		db.run('CREATE TABLE data(date TEXT, exth1 REAL, exth2 REAL, h1 REAL, h2 REAL, extt1 REAL, extt2 REAL, t1 REAL, t2 REAL, light REAL);');
 	}
 });
 db.close();

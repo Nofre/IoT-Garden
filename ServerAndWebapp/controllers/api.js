@@ -5,10 +5,12 @@ var router = require('express').Router(),
 
 router.post('/data', function(req, res) {
 
-	var data = req.body;
+	var date = req.body.date;
+	var values = req.body.values;
+	var query = 'INSERT INTO data VALUES ("'+date+'", '+values['exth1']+', '+values['exth2']+', '+values['h1']+', '+values['h2']+', '+values['extt1']+', '+values['extt2']+', '+values['t1']+', '+values['t2']+', '+values['light']+')'
 
 	db = new sqlite3.Database(file);
-	db.run('INSERT INTO data VALUES ('+data['exth1']+', '+data['exth2']+', '+data['h1']+', '+data['h2']+', '+data['extt1']+', '+data['extt2']+', '+data['t1']+', '+data['t2']+', '+data['light']+')');
+	db.run(query);
 	db.close();
 
 	res.send({ 'msg' : 'ok' });
