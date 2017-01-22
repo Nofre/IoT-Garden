@@ -40,7 +40,7 @@
 		          <div class="card-box">
 		            <h4 class="header-title">Controllers</h4>
 		            <div class="row">
-		              <div class="col-md-3 m-t-10 text-center">
+		              <div class="col-md-4 m-t-10 text-center">
 		                <h5 style="color: #428bca;"><b>Wind</b></h5>
 		                <div class="radio">
 		                  <label><input type="radio" name="fanopt" value="OFF">Off</label>
@@ -50,7 +50,7 @@
 		                </div>
 
 		              </div>
-		              <div class="col-md-3 m-t-10 text-center">
+		              <div class="col-md-4 m-t-10 text-center">
 		                <h5 style="color: #f0ad4e;"><b>Light</b></h5>
 		                <div class="radio">
 		                  <label><input type="radio" name="lightopt" value="OFF">Off</label>
@@ -59,7 +59,7 @@
 						  <label><input type="radio" name="lightopt" value="SCHEDULE">Schedule</label>
 		                </div>
 		              </div>
-		              <div class="col-md-3 m-t-10 text-center">
+		              <div class="col-md-4 m-t-10 text-center">
 		                <h5 style="color: #5bc0de;"><b>Water</b></h5>
 		                <div class="radio">
 		                  <label><input type="radio" name="irrigateopt" value="Off">Off</label>
@@ -68,41 +68,94 @@
 						  <label><input type="radio" name="irrigateopt" value="SCHEDULE">Schedule</label>
 		                </div>
 		              </div>
-					<div class="col-md-3 m-t-20 text-center">
-						<button type="button" class="btn btn-default" onclick="updateData();"><b>Refresh data</b></button>
-					</div>
 					</div>
 		            </div>
 		        </div>
-		        <div class="col-md-12">
-		          <div class="card-box">
-		            <h4 class="header-title">Exterior humidity</h4>
-		            <div class="row">
-		              <div class="col-md-6 m-t-20" id="ext-humidity-chart1" style="height: 150px;"></div>
-		              <div class="col-md-6 m-t-20" id="ext-humidity-chart2" style="height: 150px;"></div>
-		            </div>
-		            <h4 class="header-title">Interior humidity</h4>
-		            <div class="row">
-		              <div class="col-md-6 m-t-20" id="int-humidity-chart1" style="height: 150px;"></div>
-		              <div class="col-md-6 m-t-20" id="int-humidity-chart2" style="height: 150px;"></div>
-		            </div>
-		          </div>
-		        </div>
-		        <div class="col-md-12">
-		          <div class="card-box">
-		            <h4 class="header-title">Exterior temperature</h4>
-		            <div class="row">
-		              <div class="col-md-6 m-t-20" id="ext-temperature-chart1" style="height: 150px;"></div>
-		              <div class="col-md-6 m-t-20" id="ext-temperature-chart2" style="height: 150px;"></div>
-		            </div>
-		            <h4 class="header-title">Interior temperature</h4>
-		            <div class="row">
-		              <div class="col-md-6 m-t-20" id="int-temperature-chart1" style="height: 150px;"></div>
-		              <div class="col-md-6 m-t-20" id="int-temperature-chart2" style="height: 150px;"></div>
-		            </div>
-		          </div>
-		        </div>
-		        <div class="col-md-12">
+
+				<div class="col-md-12">
+					<div class="card-box">
+						<h4 class="header-title">Data</h4>
+						<div class="row">
+							<div class="col-md-9">
+								<label for="checkexth1">Ext. humidity 1</label>
+								<input type="checkbox" id="checkexth1"/>
+								<label for="checkexth2">Ext. humidity 2</label>
+								<input type="checkbox" id="checkexth2"/>
+								<label for="checkextt1">Ext. temp. 1</label>
+								<input type="checkbox" id="checkextt1"/>
+								<label for="checkextt2">Ext. temp. 2</label>
+								<input type="checkbox" id="checkextt2"/>
+								<label for="checkinth1">Int. humidity 1</label>
+								<input type="checkbox" id="checkinth1"/>
+								<label for="checkinth2">Int. humidity 2</label>
+								<input type="checkbox" id="checkinth2"/>
+								<label for="checkintt1">Int. temp. 1</label>
+								<input type="checkbox" id="checkintt1"/>
+								<label for="checkintt2">Int. temp. 2</label>
+								<input type="checkbox" id="checkintt2"/>
+								<label for="checklight">Light</label>
+								<input type="checkbox" id="checklight"/>
+							</div>
+							<div class="col-md-3 text-center">
+								<button type="button" class="btn btn-default" onclick="updateData();"><b>Refresh data</b></button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-md-12" id="ext-humidity-chart1-layout">
+					<div class="card-box">
+						<h4 class="header-title">Exterior humidity 1</h4>
+						<div class="m-t-20" id="ext-humidity-chart1" style="height: 150px;"></div>
+					</div>
+				</div>
+				<div class="col-md-12" id="ext-humidity-chart2-layout">
+					<div class="card-box">
+						<h4 class="header-title">Exterior humidity 2</h4>
+						<div class="m-t-20" id="ext-humidity-chart2" style="height: 150px;"></div>
+					</div>
+				</div>
+
+				<div class="col-md-12" id="int-humidity-chart1-layout">
+					<div class="card-box">
+						<h4 class="header-title">Interior humidity 1</h4>
+						<div class="m-t-20" id="int-humidity-chart1" style="height: 150px;"></div>
+					</div>
+				</div>
+				<div class="col-md-12" id="int-humidity-chart2-layout">
+					<div class="card-box">
+						<h4 class="header-title">Interior humidity 2</h4>
+						<div class="m-t-20" id="int-humidity-chart2" style="height: 150px;"></div>
+					</div>
+				</div>
+
+				<div class="col-md-12" id="ext-temperature-chart1-layout">
+					<div class="card-box">
+						<h4 class="header-title">Exterior temperature 1</h4>
+						<div class="m-t-20" id="ext-temperature-chart1" style="height: 150px;"></div>
+					</div>
+				</div>
+				<div class="col-md-12" id="ext-temperature-chart2-layout">
+					<div class="card-box">
+						<h4 class="header-title">Exterior temperature 2</h4>
+						<div class="m-t-20" id="ext-temperature-chart2" style="height: 150px;"></div>
+					</div>
+				</div>
+
+				<div class="col-md-12" id="int-temperature-chart1-layout">
+					<div class="card-box">
+						<h4 class="header-title">Interior temperature 1</h4>
+						<div class="m-t-20" id="int-temperature-chart1" style="height: 150px;"></div>
+					</div>
+				</div>
+				<div class="col-md-12" id="int-temperature-chart2-layout">
+					<div class="card-box">
+						<h4 class="header-title">Interior temperature 2</h4>
+						<div class="m-t-20" id="int-temperature-chart2" style="height: 150px;"></div>
+					</div>
+				</div>
+
+		        <div class="col-md-12" id="light-chart-layout">
 		          <div class="card-box">
 		            <h4 class="header-title">Light percentage</h4>
 		            <div class="m-t-20" id="light-chart" style="height: 150px;"></div>

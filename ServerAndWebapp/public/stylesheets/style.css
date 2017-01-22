@@ -6,6 +6,11 @@ body {
     color: #797979;
     padding-bottom: 60px;
 }
+
+input[type='checkbox'] {
+	margin-right: 1em;
+}
+
 .container {
     width: 90%;
 }
