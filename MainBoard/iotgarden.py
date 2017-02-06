@@ -12,6 +12,7 @@ import cfg
 import gvars
 import rest
 import auto
+from schedule import Schedule
 
 #Arguments parser
 parser = argparse.ArgumentParser()
@@ -55,6 +56,14 @@ parser.add_argument(
 	help="Wind relay initial status",
 	metavar="ISWIND")
 
+parser.add_argument(
+	"-sp", "--schedulePath",
+	action="store",
+	dest="sp",
+	default=cfg.schedule_path,
+	help="select a file with a schedule",
+	metavar="SP")
+
 args = vars(parser.parse_args())
 cfg.platform = args["platform"]
 cfg.sensorsController = args["sc"]
@@ -92,6 +101,10 @@ else:
 	print("Sensors Controller %s not valid" % cfg.sensorsController)
 	sys.exit()
 
+#Schedule
+cfg.schedule_path = args["sp"]
+schedule = Schedule()
+schedule.load()
 
 #Display
 hd = hd44780()
@@ -108,21 +121,21 @@ m = menu(sc, hd, buts)
 
 if args["islight"] == "ON" or args["islight"] == "OFF" or args["islight"] == "AUTO" or args["islight"] == "SCHEDULE":
 	gvars.status["light"] = args["islight"]
-	if args["islight"] == "ON" or (args["islight"] == "SCHEDULE" and auto.checkNowStatus(cfg.schedule["light"]) == "ON"):
+	if args["islight"] == "ON" or (args["islight"] == "SCHEDULE" and auto.checkNowStatus(schedule.schedule["light"]) == "ON"):
 		sc.lightOn()
 
 if args["iswater"] == "ON" or args["iswater"] == "OFF" or args["iswater"] == "AUTO" or args["iswater"] == "SCHEDULE":
 	gvars.status["water"] = args["iswater"]
-	if args["iswater"] == "ON" or (args["iswater"] == "SCHEDULE" and auto.checkNowStatus(cfg.schedule["water"]) == "ON"):
+	if args["iswater"] == "ON" or (args["iswater"] == "SCHEDULE" and auto.checkNowStatus(schedule.schedule["water"]) == "ON"):
 		sc.waterOn()
 
 if args["iswind"] == "ON" or args["iswind"] == "OFF" or args["iswind"] == "AUTO" or args["iswind"] == "SCHEDULE":
 	gvars.status["wind"] = args["iswind"]
-	if args["iswind"] == "ON" or (args["iswind"] == "SCHEDULE" and auto.checkNowStatus(cfg.schedule["wind"]) == "ON"):
+	if args["iswind"] == "ON" or (args["iswind"] == "SCHEDULE" and auto.checkNowStatus(schedule.schedule["wind"]) == "ON"):
 		sc.windOn()
 
 
-thread.start_new_thread(auto.auto, (sc,))
+thread.start_new_thread(auto.auto, (sc, schedule.schedule,))
 thread.start_new_thread(rest.runRestServer, (sc,))
 thread.start_new_thread(m.inputLoop, (None,))
 

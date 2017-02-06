@@ -63,24 +63,4 @@ thresholds = {
 # This example turns on the light between 14.00 and 14.05 and between 15.00 and 15.05
 
 
-schedule = {
-	"light" : {
-		14 : {
-			00 : "OFF"
-		},
-		18 : {
-			00 : "ON"
-		}
-	},
-	"water" : {
-
-	},
-	"wind" : {
-		14 : {
-			00 : "OFF"
-		},
-		18 : {
-			00 : "ON"
-		}
-	}
-}
+schedule_path = "schedule.txt"
